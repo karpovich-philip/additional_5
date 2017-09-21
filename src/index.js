@@ -7,4 +7,11 @@ module.exports = function check(str, bracketsConfig) {
       array.push(bracketsConfig[i][j])
     }
   }
+
+  var newString = string.sort()
+  var newArray = array.sort()
+
+  if (newString === newArray) {
+    return true
+  } else return false
 }

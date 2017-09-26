@@ -1,17 +1,37 @@
 module.exports = function check(str, bracketsConfig) {
-  var string = str.split("");
-  var array = [];
+  let string = str.split("");
+  let array = [];
 
-  for (var i = 0; i < bracketsConfig.length; i++) {
-    for (var j = 0; j < bracketsConfig[i].length; j++) {
-      array.push(bracketsConfig[i][j])
+  let i = 0;
+  let strlen = str.length
+
+  while (strlen > 0) {
+    let arrStack = [];
+    let arrStackRev = [];
+    for (i; i < str.length; i++) {
+      if (string[i] === '(' || string[i] === '{' || string[i] === '[' || string[i] === '|') {
+        arrStack.push(string[i]);
+        strlen--;
+      } else break
+    }
+
+    if (arrStack.length === 0) {return false}
+
+    arrStackRev = arrStack.map(function (x) {
+      if (x === '(') {return ')'}
+      else if (x === '{') {return '}'}
+      else if (x === '[') {return ']'}
+      else if (x === '|') {return '|'}
+    });
+
+    arrStackRev = arrStackRev.reverse();
+
+    for (let j = 0; j < arrStackRev.length; i++,j++) {
+      if (string[i] === arrStackRev[j]) {
+        strlen--;
+      }
+      else return false;
     }
   }
-
-  var newString = string.sort()
-  var newArray = array.sort()
-
-  if (newString === newArray) {
-    return true
-  } else return false
+  return true;
 }

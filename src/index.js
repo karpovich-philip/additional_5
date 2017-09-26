@@ -8,14 +8,12 @@ module.exports = function check(str, config) {
     for (let j = 0; j < config.length; j++) {
       if (string[i] === config[j][0]) {
         if (config[j][0] === config[j][1]) {
-          if (lala) {
+          if (stack[stack.length - 1] !== string[i]) {
             stack.push(string[i]);
-            lala = !lala;
             break;
           } else {
             if (stack[stack.length - 1] === config[j][0]) {
               stack.pop(string[i]);
-              lala = !lala;
               break
             } else return false;
           }

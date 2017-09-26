@@ -1,37 +1,41 @@
-module.exports = function check(str, bracketsConfig) {
+module.exports = function check(str, config) {
   let string = str.split("");
-  let array = [];
+  let stack = [];
 
-  let i = 0;
-  let strlen = str.length
+  let lala = true;
 
-  while (strlen > 0) {
-    let arrStack = [];
-    let arrStackRev = [];
-    for (i; i < str.length; i++) {
-      if (string[i] === '(' || string[i] === '{' || string[i] === '[' || string[i] === '|') {
-        arrStack.push(string[i]);
-        strlen--;
-      } else break
-    }
-
-    if (arrStack.length === 0) {return false}
-
-    arrStackRev = arrStack.map(function (x) {
-      if (x === '(') {return ')'}
-      else if (x === '{') {return '}'}
-      else if (x === '[') {return ']'}
-      else if (x === '|') {return '|'}
-    });
-
-    arrStackRev = arrStackRev.reverse();
-
-    for (let j = 0; j < arrStackRev.length; i++,j++) {
-      if (string[i] === arrStackRev[j]) {
-        strlen--;
+  for (let i = 0; i < string.length; i++) {
+    for (let j = 0; j < config.length; j++) {
+      if (string[i] === config[j][0]) {
+        if (config[j][0] === config[j][1]) {
+          if (lala) {
+            stack.push(string[i]);
+            lala = !lala;
+            break;
+          } else {
+            if (stack[stack.length - 1] === config[j][0]) {
+              stack.pop(string[i]);
+              lala = !lala;
+              break
+            } else return false;
+          }
+        }
+        stack.push(string[i]);
+        break;
+      } else if (string[i] === config[j][1]) {
+        if (stack.length === 0) {
+          return false;
+        }
+        if (stack[stack.length - 1] === config[j][0]) {
+          stack.pop(string[i]);
+        } else return false;
+        break;
       }
-      else return false;
     }
   }
-  return true;
+
+  if (stack.length !== 0) {
+    return false
+  }
+  return true
 }
